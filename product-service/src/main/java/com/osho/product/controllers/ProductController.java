@@ -38,16 +38,16 @@ public class ProductController {
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.FOUND);
     }
     @PostMapping("/")
-    public Product createProduct(@RequestBody Product productRequest) {
-        return productService.createProduct(productRequest);
+    public ResponseEntity<Product>  createProduct(@RequestBody Product productRequest) {
+        return new ResponseEntity<>(productService.createProduct(productRequest), HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
     public Product replaceProduct(@PathVariable(value = "id") Long id , @RequestBody Product productRequest) {
         return productService.replaceProduct(id, productRequest);
     }
     @PatchMapping("/{id}")
-    public Product updateProduct(@PathVariable(value = "id") Long id, @RequestBody Product productRequest){
-        return productService.updateProduct(id, productRequest);
+    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long id, @RequestBody Product productRequest){
+        return new ResponseEntity<>(productService.updateProduct(id, productRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
