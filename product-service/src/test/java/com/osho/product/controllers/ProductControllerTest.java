@@ -35,7 +35,7 @@ class ProductControllerTest {
 
     @Test
     void Test_WhenGetProductByIdIsCalled_ThenReturnProduct() throws ProductLimitReachedException {
-        ResponseEntity<Product> response = productController.getProductById(2L);
+        ResponseEntity<Product> response = productController.getProductById("token",2L);
         assertNotNull(response);
         assertEquals(HttpStatus.FOUND, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -48,7 +48,7 @@ class ProductControllerTest {
         when(productService.getProductById(any(Long.class)))
                 .thenThrow(new RuntimeException("Something went wrong"));
 
-        assertThrows(RuntimeException.class, () -> productController.getProductById(2L));
+        assertThrows(RuntimeException.class, () -> productController.getProductById("token",2L));
     }
 
 

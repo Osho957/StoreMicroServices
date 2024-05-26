@@ -2,6 +2,7 @@ package com.osho.product.controllers;
 
 import com.osho.product.models.Product;
 import com.osho.product.service.ProductService;
+import com.osho.product.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -28,25 +29,33 @@ public class ProductController {
 
 
     private final ProductService productService;
+    private final TokenService tokenService;
 
     @GetMapping("/")
     public List<Product> getAllProduct() {
         return productService.getAllProducts();
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Product> getProductById(@RequestHeader(value = "token") String token, @PathVariable(value = "id") Long id) {
+        if(!tokenService.validateToken(token)){
+            return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+        }
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.FOUND);
     }
+
     @PostMapping("/")
-    public ResponseEntity<Product>  createProduct(@RequestBody Product productRequest) {
+    public ResponseEntity<Product> createProduct(@RequestBody Product productRequest) {
         return new ResponseEntity<>(productService.createProduct(productRequest), HttpStatus.CREATED);
     }
+
     @PutMapping("/{id}")
-    public Product replaceProduct(@PathVariable(value = "id") Long id , @RequestBody Product productRequest) {
+    public Product replaceProduct(@PathVariable(value = "id") Long id, @RequestBody Product productRequest) {
         return productService.replaceProduct(id, productRequest);
     }
+
     @PatchMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long id, @RequestBody Product productRequest){
+    public ResponseEntity<Product> updateProduct(@PathVariable(value = "id") Long id, @RequestBody Product productRequest) {
         return new ResponseEntity<>(productService.updateProduct(id, productRequest), HttpStatus.OK);
     }
 
