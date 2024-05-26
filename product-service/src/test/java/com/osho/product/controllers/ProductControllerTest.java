@@ -4,6 +4,8 @@ import com.osho.product.Exceptions.ProductLimitReachedException;
 import com.osho.product.models.Product;
 import com.osho.product.service.IProductService;
 import com.osho.product.service.ProductService;
+import com.osho.product.service.TokenService;
+import org.antlr.v4.runtime.Token;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,9 @@ class ProductControllerTest {
     @MockBean
     ProductService productService;
 
+    @MockBean
+    TokenService tokenService;
+
     @Autowired
     ProductController productController;
 
@@ -31,6 +36,7 @@ class ProductControllerTest {
         product.setId(2L);
         when(productService.getProductById(any(Long.class))).thenReturn(product);
         when(productService.createProduct(any(Product.class))).thenReturn(product);
+        when(tokenService.validateToken(any(String.class))).thenReturn(true);
     }
 
     @Test
@@ -42,6 +48,13 @@ class ProductControllerTest {
         Product product = response.getBody();
         assertEquals("MacBook", product.getTitle());
         assertEquals(2L, product.getId());
+    }
+    @Test
+    void Test_WhenGetProductByIdIsCalled_ThenReturnUnAuthorized() throws ProductLimitReachedException {
+        when(tokenService.validateToken(any(String.class))).thenReturn(false);
+        ResponseEntity<Product> response = productController.getProductById("token",2L);
+        assertNotNull(response);
+        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
     @Test
     void Test_WhenGetProductByIdIsCalled_ThenReturnException() {
