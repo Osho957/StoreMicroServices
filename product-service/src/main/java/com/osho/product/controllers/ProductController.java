@@ -29,7 +29,6 @@ public class ProductController {
 
 
     private final ProductService productService;
-    private final TokenService tokenService;
 
     @GetMapping("/")
     public List<Product> getAllProduct() {
@@ -37,10 +36,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@RequestHeader(value = "token") String token, @PathVariable(value = "id") Long id) {
-        if(!tokenService.validateToken(token)){
-            return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<Product> getProductById(@PathVariable(value = "id") Long id) {
         return new ResponseEntity<>(productService.getProductById(id), HttpStatus.FOUND);
     }
 

@@ -1,5 +1,6 @@
 package org.osho.userservice.security.service;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.osho.userservice.models.User;
 import org.osho.userservice.repository.UserRepository;
 import org.osho.userservice.security.models.CustomUserDetails;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@JsonDeserialize
 public class CustomUserDetailsService implements UserDetailsService {
 
     UserRepository userRepository;

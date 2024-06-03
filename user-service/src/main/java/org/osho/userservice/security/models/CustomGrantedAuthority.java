@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.osho.userservice.models.Role;
 import org.springframework.security.core.GrantedAuthority;
 
 @JsonDeserialize
@@ -12,8 +13,14 @@ import org.springframework.security.core.GrantedAuthority;
 @NoArgsConstructor
 public class CustomGrantedAuthority implements GrantedAuthority {
 
+    private String authority;
+
+    public CustomGrantedAuthority(Role role) {
+        this.authority = role.getValue();
+    }
+
     @Override
     public String getAuthority() {
-        return null;
+        return authority;
     }
 }

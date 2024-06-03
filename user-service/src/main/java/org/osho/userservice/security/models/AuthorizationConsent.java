@@ -2,11 +2,7 @@ package org.osho.userservice.security.models;
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,27 +17,14 @@ public class AuthorizationConsent {
     @Id
     private String principalName;
     @Column(length = 1000)
+    @Lob
     private String authorities;
 
+    @Setter
+    @Getter
     public static class AuthorizationConsentId implements Serializable {
         private String registeredClientId;
         private String principalName;
-
-        public String getRegisteredClientId() {
-            return registeredClientId;
-        }
-
-        public void setRegisteredClientId(String registeredClientId) {
-            this.registeredClientId = registeredClientId;
-        }
-
-        public String getPrincipalName() {
-            return principalName;
-        }
-
-        public void setPrincipalName(String principalName) {
-            this.principalName = principalName;
-        }
 
         @Override
         public boolean equals(Object o) {

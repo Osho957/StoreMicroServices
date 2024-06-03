@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service("selfProductService")
-@Primary
+//@Primary
 public class SelfProductService implements ProductService{
     private final ProductRepository productRepository;
 
@@ -31,7 +31,11 @@ public class SelfProductService implements ProductService{
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        List<Product> products = productRepository.findAll();
+        if(products.isEmpty()){
+            throw new EntityNotFoundException("No products found");
+        }
+        return products;
     }
 
     @Override
