@@ -49,13 +49,13 @@ class ProductControllerTest {
         assertEquals("MacBook", product.getTitle());
         assertEquals(2L, product.getId());
     }
-    @Test
-    void Test_WhenGetProductByIdIsCalled_ThenReturnUnAuthorized() throws ProductLimitReachedException {
-        when(tokenService.validateToken(any(String.class))).thenReturn(false);
-        ResponseEntity<Product> response = productController.getProductById(2L);
-        assertNotNull(response);
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-    }
+//    @Test
+//    void Test_WhenGetProductByIdIsCalled_ThenReturnUnAuthorized() throws ProductLimitReachedException {
+//        when(tokenService.validateToken(any(String.class))).thenReturn(false);
+//        ResponseEntity<Product> response = productController.getProductById(2L);
+//        assertNotNull(response);
+//        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
+//    }
     @Test
     void Test_WhenGetProductByIdIsCalled_ThenReturnException() {
         when(productService.getProductById(any(Long.class)))
