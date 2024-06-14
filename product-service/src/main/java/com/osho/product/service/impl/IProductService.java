@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service("fakeStoreService")
-@Primary
 @RequiredArgsConstructor
 public class IProductService implements ProductService {
 
