@@ -1,8 +1,9 @@
-package com.osho.product.service;
+package com.osho.product.service.impl;
 
 import com.osho.product.dtos.FakeStoreDto;
 import com.osho.product.models.Category;
 import com.osho.product.models.Product;
+import com.osho.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.ParameterizedTypeReference;

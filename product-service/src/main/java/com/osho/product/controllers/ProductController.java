@@ -2,14 +2,11 @@ package com.osho.product.controllers;
 
 import com.osho.product.models.Product;
 import com.osho.product.service.ProductService;
-import com.osho.product.service.TokenService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /*

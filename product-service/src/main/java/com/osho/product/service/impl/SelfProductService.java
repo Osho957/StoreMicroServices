@@ -1,11 +1,9 @@
-package com.osho.product.service;
+package com.osho.product.service.impl;
 
-import com.osho.product.models.Category;
 import com.osho.product.models.Product;
-import com.osho.product.repository.CategoryRepository;
 import com.osho.product.repository.ProductRepository;
+import com.osho.product.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.Optional;
 
 @Service("selfProductService")
 //@Primary
-public class SelfProductService implements ProductService{
+public class SelfProductService implements ProductService {
     private final ProductRepository productRepository;
 
     public SelfProductService(ProductRepository productRepository) {

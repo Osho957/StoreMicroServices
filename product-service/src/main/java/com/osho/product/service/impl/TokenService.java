@@ -1,4 +1,4 @@
-package com.osho.product.service;
+package com.osho.product.service.impl;
 
 import com.osho.product.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
