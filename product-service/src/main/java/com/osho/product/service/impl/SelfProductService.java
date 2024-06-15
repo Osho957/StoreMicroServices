@@ -4,6 +4,7 @@ import com.osho.product.models.Product;
 import com.osho.product.repository.ProductRepository;
 import com.osho.product.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,18 +13,26 @@ import java.util.Optional;
 @Service("selfProductService")
 public class SelfProductService implements ProductService {
     private final ProductRepository productRepository;
+    private final RedisTemplate<String,Object> redisTemplate;
 
-    public SelfProductService(ProductRepository productRepository) {
+    public SelfProductService(ProductRepository productRepository, RedisTemplate<String, Object> redisTemplate) {
         this.productRepository = productRepository;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public Product getProductById(Long id) {
-        Optional<Product> product = productRepository.findById(id);
-        if(product.isEmpty()){
+        Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS","product_" + id);
+        if (product != null) {
+            return product;
+        }
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(optionalProduct.isEmpty()){
            throw new EntityNotFoundException("Product with id " + id + " not found");
         }
-        return product.get();
+        product = optionalProduct.get();
+        redisTemplate.opsForHash().put("PRODUCTS","product_" + id, product);
+        return product;
     }
 
     @Override
