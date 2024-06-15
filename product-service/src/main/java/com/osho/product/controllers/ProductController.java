@@ -22,11 +22,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-@RequiredArgsConstructor
+
 public class ProductController {
 
-    @Qualifier("fakeStoreService")
+
     private final ProductService productService;
+
+    public ProductController(@Qualifier("fakeStoreService") ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("/")
     public List<Product> getAllProduct() {

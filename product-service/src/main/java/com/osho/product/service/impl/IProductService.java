@@ -7,6 +7,7 @@ import com.osho.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,19 @@ import java.util.stream.Collectors;
 public class IProductService implements ProductService {
 
     private final RestTemplate restTemplate;
+    private final RedisTemplate<String,Object> redisTemplate;
+
 
     public Product getProductById(Long id) {
+        Product product = (Product) redisTemplate.opsForHash().get("PRODUCTS","product_" + id);
+        if (product != null) {
+            return product;
+        }
         FakeStoreDto fakeStoreDto = restTemplate.getForObject("https://fakestoreapi.com/products/" + id, FakeStoreDto.class);
-        return convertDtoToProduct(fakeStoreDto);
+        product = convertDtoToProduct(fakeStoreDto);
+        assert product != null;
+        redisTemplate.opsForHash().put("PRODUCTS","product_" + id, product);
+        return product;
     }
 
     public List<Product> getAllProducts() {
