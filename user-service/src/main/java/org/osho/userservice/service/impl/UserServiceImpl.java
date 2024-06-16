@@ -64,6 +64,15 @@ public class UserServiceImpl implements UserService {
         return tokenOptional.get().getUser();
     }
 
+    @Override
+    public User getUserById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()){
+            throw new UsernameNotFoundException("User not found for id "+ id);
+        }
+        return user.get();
+    }
+
     private Token generateToken(User user){
         Token token = new Token();
         token.setUser(user);

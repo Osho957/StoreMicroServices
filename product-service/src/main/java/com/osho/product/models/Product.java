@@ -20,3 +20,4 @@ public class Product extends BaseModel{
     private String image;
     private int quantity;
 }
+

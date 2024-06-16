@@ -18,7 +18,7 @@ public class StripePaymentGateway implements PaymentGateway{
     private String stripekey;
 
     @Override
-    public String generatePaymentLink(String orderId, Long amount, String email, String phoneNumber) {
+    public String generatePaymentLink(String orderId, Long amount, String email,String name) {
         Stripe.apiKey = stripekey;
 
         PriceCreateParams priceCreateParams =

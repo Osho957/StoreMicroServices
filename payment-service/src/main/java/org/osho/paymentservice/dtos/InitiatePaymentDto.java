@@ -8,7 +8,5 @@ import lombok.Setter;
 public class InitiatePaymentDto {
     private String gatewayType;
     private String orderId;
-    private long amount;
-    private String email;
-    private String phone;
+    private String userId;
 }

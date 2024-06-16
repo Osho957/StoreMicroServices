@@ -1,6 +1,8 @@
 package com.osho.product.service.impl;
 
+import com.osho.product.models.Category;
 import com.osho.product.models.Product;
+import com.osho.product.repository.CategoryRepository;
 import com.osho.product.repository.ProductRepository;
 import com.osho.product.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
@@ -46,7 +48,16 @@ public class SelfProductService implements ProductService {
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        return null;
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(optionalProduct.isEmpty()){
+            throw new EntityNotFoundException("Product with id " + id + " not found");
+        }
+        Product existingProduct = optionalProduct.get();
+        existingProduct.setQuantity(product.getQuantity());
+        productRepository.save(existingProduct);
+        // Invalidate the cache entry
+        redisTemplate.opsForHash().delete("PRODUCTS", "product_" + id);
+        return existingProduct;
     }
 
     @Override

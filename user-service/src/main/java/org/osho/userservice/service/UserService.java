@@ -11,4 +11,5 @@ public interface UserService {
     User signUp(String email, String name, String password);
     Token login(String email, String password);
     User validateToken(String token);
+    User getUserById(Long id);
 }

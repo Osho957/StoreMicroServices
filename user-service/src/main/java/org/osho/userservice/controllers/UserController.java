@@ -27,6 +27,12 @@ public class UserController {
         return userService.login(loginDto.getEmail(), loginDto.getPassword());
     }
 
+    @GetMapping("/profile/{id}")
+    public UserDto profile(@PathVariable(value = "id") Long id){
+        User user = userService.getUserById(id);
+        return UserDto.from(user);
+    }
+
     @PostMapping("/validate/{token}")
     public UserDto validate(@PathVariable(value = "token") String token){
         try {

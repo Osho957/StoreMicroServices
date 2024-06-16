@@ -15,7 +15,7 @@ public class RazorPayGateway implements PaymentGateway{
     private final RazorpayClient razorpayClient;
 
     @Override
-    public String generatePaymentLink(String orderId, Long amount, String email, String phone) {
+    public String generatePaymentLink(String orderId, Long amount, String email, String name) {
         JSONObject paymentLinkRequest = new JSONObject();
         paymentLinkRequest.put("amount",amount);
         paymentLinkRequest.put("currency","INR");
@@ -25,9 +25,9 @@ public class RazorPayGateway implements PaymentGateway{
         paymentLinkRequest.put("reference_id",orderId);
         paymentLinkRequest.put("description","Payment for order no #"+orderId);
         JSONObject customer = new JSONObject();
-        customer.put("name","+91"+phone);
-        customer.put("contact","Test User");
-        customer.put("email","oshorajneesh453@gmail.com");
+//        customer.put("name","+91"+phone);
+        customer.put("contact",name);
+        customer.put("email",email);
         paymentLinkRequest.put("customer",customer);
         JSONObject notify = new JSONObject();
         notify.put("sms",true);

@@ -11,7 +11,7 @@ public class ExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleException() {
         System.out.println("Something went Wrong");
-        return new ResponseEntity<>("Something went Wrong", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Product Not Found", HttpStatus.NOT_FOUND);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(ProductLimitReachedException.class)
