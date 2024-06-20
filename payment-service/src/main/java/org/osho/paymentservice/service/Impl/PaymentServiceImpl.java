@@ -24,8 +24,8 @@ public class PaymentServiceImpl implements PaymentService {
         // get order details from product service  check if quantity is greater than 0 and then get the amount to be paid
         // then call the payment gateway to initiate the payment and return the payment link
         // update the order quantity in the product service
-        Product product = restTemplate.getForObject("http://localhost:8080/orders/" + orderId, Product.class);
-        User user = restTemplate.getForObject("http://localhost:8081/users/profile/" + userId, User.class);
+        Product product = restTemplate.getForObject("http://product-service/orders/" + orderId, Product.class);
+        User user = restTemplate.getForObject("http://user-service/users/profile/" + userId, User.class);
         System.out.println(user);
         if (user == null) {
             return "User not found";
@@ -39,7 +39,7 @@ public class PaymentServiceImpl implements PaymentService {
         System.out.println(product);
         HttpEntity<Product> requestEntity = new HttpEntity<>(product, headers);
         ResponseEntity<Product> response = restTemplate.exchange(
-                "http://localhost:8080/orders/update/" + orderId,
+                "http://product-service/orders/update/" + orderId,
                 HttpMethod.PATCH,
                 requestEntity,
                 Product.class
