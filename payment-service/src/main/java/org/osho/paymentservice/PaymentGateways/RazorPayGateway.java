@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class RazorPayGateway implements PaymentGateway{
@@ -22,11 +24,11 @@ public class RazorPayGateway implements PaymentGateway{
         paymentLinkRequest.put("accept_partial",true);
         paymentLinkRequest.put("first_min_partial_amount",100);
         paymentLinkRequest.put("expire_by",(System.currentTimeMillis() + 86400000)/1000);
-        paymentLinkRequest.put("reference_id",orderId);
-        paymentLinkRequest.put("description","Payment for order no #"+orderId);
+        paymentLinkRequest.put("reference_id",UUID.randomUUID()+orderId);
+        paymentLinkRequest.put("description","Payment for order no #"+ orderId);
         JSONObject customer = new JSONObject();
-//        customer.put("name","+91"+phone);
-        customer.put("contact",name);
+        customer.put("name",name);
+//        customer.put("contact","9999999999");
         customer.put("email",email);
         paymentLinkRequest.put("customer",customer);
         JSONObject notify = new JSONObject();
